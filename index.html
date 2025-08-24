@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Password Cracking Estimator</title>
+        <style>
+            body {
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                height: 100vh;
+                font-family: Arial, sans-serif;
+                background-color: #f0f0f0;
+            }
+        </style>
+    </head>
+    <body>
+        <h2>Password Cracking Estimator</h2>
+
+        <input type="password" id="password" placeholder="Enter your password: ">
+        <p id="result">Estimated time will appear here...</p>
+    
+        <script>
+            const passwordInput = document.getElementById("password");
+            const resultParagraph = document.getElementById("result");
+
+            passwordInput.addEventListener("input", function() {
+                let password = passwordInput.value;
+                resultParagraph.innerText = "You typed: " + password;
+            });
+        </script>
+    </body>
+</html>
