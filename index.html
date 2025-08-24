@@ -27,6 +27,11 @@
             passwordInput.addEventListener("input", function() {
                 let password = passwordInput.value;
                 resultParagraph.innerText = "You typed: " + password;
+                
+                if (password.length === 0) {
+                    resultParagraph.innerText = "Estimated time will appear here...";
+                    return;
+                }
             });
         </script>
     </body>
