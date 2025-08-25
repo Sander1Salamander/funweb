@@ -31,8 +31,10 @@
             let hours = minutes / 60;
             if (hours < 24) return hours.toFixed(2) + " hours";
             let days = hours / 24;
-            if (days < 365) return days.toFixed(2) + " days";
-            let years = days / 365;
+            if (days < 30) return days.toFixed(2) + " days";
+            let months = days / 30;
+            if (months < 12) return months.toFixed(2) + " months";
+            let years = months / 12;
             return years.toFixed(2) + " years";
         }
 
