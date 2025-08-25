@@ -24,6 +24,18 @@
         const passwordInput = document.getElementById("password");
         const resultParagraph = document.getElementById("result");
 
+        // Format huge numbers like million, billion, trillion...
+        function formatBigNumber(num) {
+            const units = ["", "million", "billion", "trillion", "quadrillion", "quintillion", "sextillion", "septillion", "octillion", "nonillion"];
+            let unitIndex = 0;
+            while (num >= 1e6 && unitIndex < units.length - 1) {
+                num /= 1e3; // divide by 1000 each step
+                unitIndex++;
+            }
+            return num.toFixed(2) + " " + units[unitIndex];
+        }
+
+        // Format time into readable units, scaling to huge years if needed
         function formatTime(seconds) {
             if (seconds < 60) return seconds.toFixed(2) + " seconds";
             let minutes = seconds / 60;
@@ -35,7 +47,8 @@
             let months = days / 30;
             if (months < 12) return months.toFixed(2) + " months";
             let years = months / 12;
-            return years.toFixed(2) + " years";
+            if (years < 1e6) return years.toFixed(2) + " years";
+            return formatBigNumber(years) + " years";
         }
 
         passwordInput.addEventListener("input", function() {
@@ -48,12 +61,13 @@
                 return;
             }
 
+            // Detect character types
             let hasLower = false;
             let hasUpper = false;
             let hasDigit = false;
             let hasSymbol = false;
 
-            for (let i = 0; i < password.length; i++) {
+            for (let i = 0; i < length; i++) {
                 let c = password[i];
                 if (c >= 'a' && c <= 'z') hasLower = true;
                 else if (c >= 'A' && c <= 'Z') hasUpper = true;
@@ -61,20 +75,25 @@
                 else hasSymbol = true;
             }
 
+            // Calculate charset
             let charset = 0;
             if (hasLower) charset += 26;
             if (hasUpper) charset += 26;
             if (hasDigit) charset += 10;
             if (hasSymbol) charset += 33;
 
+            // Calculate total combinations and time to guess
             let totalCombinations = Math.pow(charset, length);
             let secondsToGuess = totalCombinations / guessesPerSecond;
+
+            // Format numbers
+            let readableCombinations = formatBigNumber(totalCombinations);
             let readableTime = formatTime(secondsToGuess);
 
             resultParagraph.innerHTML =
                 "Charset: " + charset + "<br>" +
                 "Length: " + length + "<br>" +
-                "Combinations: " + totalCombinations + "<br>" +
+                "Combinations: " + readableCombinations + "<br>" +
                 "Estimated time to guess: " + readableTime;
         });
     </script>
