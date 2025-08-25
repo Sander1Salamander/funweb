@@ -26,6 +26,7 @@
 
             passwordInput.addEventListener("input", function() {
                 let password = passwordInput.value;
+                let length = password.length;
 
                 // Step 1: Check if empty
                 if (password.length === 0) {
@@ -62,6 +63,7 @@
 
                 // Step 5: Update output
                 resultParagraph.innerText = "Charset: " + charset;
+                resultParagraph.innerText = "Length: " + password.length;
             });
         </script>
     </body>
