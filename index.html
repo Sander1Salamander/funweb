@@ -63,11 +63,11 @@
                 if (hasSymbol) charset += 33;
 
                 total_combinations = charset ^ length;
-
+                seconds_to_guess = total_combinations / guess_per_second;
 
 
                 // Step 5: Update output
-                resultParagraph.innerText = "Charset: " + charset + "\n Length: " + length + "\n Combinations: " + total_combinations;
+                resultParagraph.innerText = "Charset: " + charset + "\n Length: " + length + "\n Combinations: " + total_combinations + "Seconds to guess: " + seconds_to_guess;
             });
         </script>
     </body>
