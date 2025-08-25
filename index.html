@@ -27,6 +27,7 @@
             passwordInput.addEventListener("input", function() {
                 let password = passwordInput.value;
                 let length = password.length;
+                let guess_per_second = 1e9;
 
                 // Step 1: Check if empty
                 if (password.length === 0) {
@@ -61,8 +62,12 @@
                 if (hasDigit) charset += 10;
                 if (hasSymbol) charset += 33;
 
+                total_combinations = charset ** length;
+
+
+
                 // Step 5: Update output
-                resultParagraph.innerText = "Charset: " + charset + "\n Length: " + length;
+                resultParagraph.innerText = "Charset: " + charset + "\n Length: " + length + "\n Combinations: " + total_combinations;
             });
         </script>
     </body>
