@@ -23,44 +23,46 @@
         <script>
             const passwordInput = document.getElementById("password");
             const resultParagraph = document.getElementById("result");
-            
-            // Check for input
+
             passwordInput.addEventListener("input", function() {
                 let password = passwordInput.value;
-            });
 
-            if (password.length === 0) {
+                // Step 1: Check if empty
+                if (password.length === 0) {
                     resultParagraph.innerText = "Estimated time will appear here...";
                     return;
-            }
-
-            // Calculate total combinations
-            let hasLower = false;
-            let hasUpper = false;
-            let hasDigit = false;
-            let hasSymbol = false;
-
-            for (let i = 0; i < password.length; i++) {
-                let c = password[i];
-                if (c >= 'a' && c <= 'z') {
-                    hasLower = true;
-                } else if (c >= 'A' && c <= 'Z') {
-                    hasUpper = true;
-                } else if (c >= '0' && c <= '9') {
-                    hasDigit = true;
-                } else {
-                    hasSymbol = true;
                 }
-            
-            }
-            let charset = 0;
-            if (hasLower) charset += 26;
-            if (hasUpper) charset += 26;
-            if (hasDigit) charset += 10;
-            if (hasSymbol) charset += 33;
-            
-            // Updating the text.
-            resultParagraph.innerText = "Charset: " + charset;
+
+                // Step 2: Flags
+                let hasLower = false;
+                let hasUpper = false;
+                let hasDigit = false;
+                let hasSymbol = false;
+
+                // Step 3: Detect characters
+                for (let i = 0; i < password.length; i++) {
+                    let c = password[i];
+                    if (c >= 'a' && c <= 'z') {
+                        hasLower = true;
+                    } else if (c >= 'A' && c <= 'Z') {
+                        hasUpper = true;
+                    } else if (c >= '0' && c <= '9') {
+                        hasDigit = true;
+                    } else {
+                        hasSymbol = true;
+                    }
+                }
+
+                // Step 4: Charset size
+                let charset = 0;
+                if (hasLower) charset += 26;
+                if (hasUpper) charset += 26;
+                if (hasDigit) charset += 10;
+                if (hasSymbol) charset += 33;
+
+                // Step 5: Update output
+                resultParagraph.innerText = "Charset: " + charset;
+            });
         </script>
     </body>
 </html>
