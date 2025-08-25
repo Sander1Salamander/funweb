@@ -26,13 +26,37 @@
 
             passwordInput.addEventListener("input", function() {
                 let password = passwordInput.value;
-                resultParagraph.innerText = "You typed: " + password;
+                resultParagraph.innerText = "Charset: " + charset;
                 
                 if (password.length === 0) {
                     resultParagraph.innerText = "Estimated time will appear here...";
                     return;
                 }
             });
+
+            // Calculate total combinations
+            let hasLower = false;
+            let hasUpper = false;
+            let hasDigit = false;
+            let hasSymbol = false;
+
+            for (let i = 0; i < password.length; i++) {
+                let c = password[i];
+                if (c >= 'a' && c <= '<') {
+                    hasLower = true;
+                } else if (c >= 'A' && c <= 'Z') {
+                    hasUpper = true;
+                } else if (c >= '0' && c <= '9') {
+                    hasDigit = true;
+                } else {
+                    hasSymbol = true;
+                }
+            let charset = 0;
+            if (hasLower) charset += 26;
+            if (hasUpper) charset += 26;
+            if (hasDigit) charset += 10;
+            if (hasSymbol) charset += 33;
+            }
         </script>
     </body>
 </html>
