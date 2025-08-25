@@ -1,74 +1,80 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <title>Password Cracking Estimator</title>
-        <style>
-            body {
-                display: flex;
-                flex-direction: column;
-                justify-content: center;
-                align-items: center;
-                height: 100vh;
-                font-family: Arial, sans-serif;
-                background-color: #f0f0f0;
+<head>
+    <title>Password Cracking Estimator</title>
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+        }
+    </style>
+</head>
+<body>
+    <h2>Password Cracking Estimator</h2>
+
+    <input type="password" id="password" placeholder="Enter your password: ">
+    <p id="result">Estimated time will appear here...</p>
+
+    <script>
+        const passwordInput = document.getElementById("password");
+        const resultParagraph = document.getElementById("result");
+
+        function formatTime(seconds) {
+            if (seconds < 60) return seconds.toFixed(2) + " seconds";
+            let minutes = seconds / 60;
+            if (minutes < 60) return minutes.toFixed(2) + " minutes";
+            let hours = minutes / 60;
+            if (hours < 24) return hours.toFixed(2) + " hours";
+            let days = hours / 24;
+            if (days < 365) return days.toFixed(2) + " days";
+            let years = days / 365;
+            return years.toFixed(2) + " years";
+        }
+
+        passwordInput.addEventListener("input", function() {
+            let password = passwordInput.value;
+            let length = password.length;
+            let guessesPerSecond = 1e9; // 1 billion guesses/sec
+
+            if (length === 0) {
+                resultParagraph.innerText = "Estimated time will appear here...";
+                return;
             }
-        </style>
-    </head>
-    <body>
-        <h2>Password Cracking Estimator</h2>
 
-        <input type="password" id="password" placeholder="Enter your password: ">
-        <p id="result">Estimated time will appear here...</p>
-    
-        <script>
-            const passwordInput = document.getElementById("password");
-            const resultParagraph = document.getElementById("result");
+            let hasLower = false;
+            let hasUpper = false;
+            let hasDigit = false;
+            let hasSymbol = false;
 
-            passwordInput.addEventListener("input", function() {
-                let password = passwordInput.value;
-                let length = password.length;
-                let guess_per_second = 1e9;
+            for (let i = 0; i < password.length; i++) {
+                let c = password[i];
+                if (c >= 'a' && c <= 'z') hasLower = true;
+                else if (c >= 'A' && c <= 'Z') hasUpper = true;
+                else if (c >= '0' && c <= '9') hasDigit = true;
+                else hasSymbol = true;
+            }
 
-                // Step 1: Check if empty
-                if (password.length === 0) {
-                    resultParagraph.innerText = "Estimated time will appear here...";
-                    return;
-                }
+            let charset = 0;
+            if (hasLower) charset += 26;
+            if (hasUpper) charset += 26;
+            if (hasDigit) charset += 10;
+            if (hasSymbol) charset += 33;
 
-                // Step 2: Reset flags
-                let hasLower = false;
-                let hasUpper = false;
-                let hasDigit = false;
-                let hasSymbol = false;
+            let totalCombinations = Math.pow(charset, length);
+            let secondsToGuess = totalCombinations / guessesPerSecond;
+            let readableTime = formatTime(secondsToGuess);
 
-                // Step 3: Detect characters
-                for (let i = 0; i < password.length; i++) {
-                    let c = password[i];
-                    if (c >= 'a' && c <= 'z') {
-                        hasLower = true;
-                    } else if (c >= 'A' && c <= 'Z') {
-                        hasUpper = true;
-                    } else if (c >= '0' && c <= '9') {
-                        hasDigit = true;
-                    } else {
-                        hasSymbol = true;
-                    }
-                }
-
-                // Step 4: Charset size
-                let charset = 0;
-                if (hasLower) charset += 26;
-                if (hasUpper) charset += 26;
-                if (hasDigit) charset += 10;
-                if (hasSymbol) charset += 33;
-
-                total_combinations = charset ^ length;
-                seconds_to_guess = total_combinations / guess_per_second;
-
-
-                // Step 5: Update output
-                resultParagraph.innerText = "Charset: " + charset + "\n Length: " + length + "\n Combinations: " + total_combinations + "Seconds to guess: " + seconds_to_guess;
-            });
-        </script>
-    </body>
+            resultParagraph.innerHTML =
+                "Charset: " + charset + "<br>" +
+                "Length: " + length + "<br>" +
+                "Combinations: " + totalCombinations + "<br>" +
+                "Estimated time to guess: " + readableTime;
+        });
+    </script>
+</body>
 </html>
