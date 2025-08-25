@@ -24,16 +24,6 @@
             const passwordInput = document.getElementById("password");
             const resultParagraph = document.getElementById("result");
 
-            passwordInput.addEventListener("input", function() {
-                let password = passwordInput.value;
-                resultParagraph.innerText = "Charset: " + charset;
-                
-                if (password.length === 0) {
-                    resultParagraph.innerText = "Estimated time will appear here...";
-                    return;
-                }
-            });
-
             // Calculate total combinations
             let hasLower = false;
             let hasUpper = false;
@@ -57,6 +47,16 @@
             if (hasDigit) charset += 10;
             if (hasSymbol) charset += 33;
             }
+
+            passwordInput.addEventListener("input", function() {
+                let password = passwordInput.value;
+                resultParagraph.innerText = "Charset: " + charset;
+                
+                if (password.length === 0) {
+                    resultParagraph.innerText = "Estimated time will appear here...";
+                    return;
+                }
+            });
         </script>
     </body>
 </html>
