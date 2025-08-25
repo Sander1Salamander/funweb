@@ -24,6 +24,11 @@
             const passwordInput = document.getElementById("password");
             const resultParagraph = document.getElementById("result");
 
+            if (password.length === 0) {
+                    resultParagraph.innerText = "Estimated time will appear here...";
+                    return;
+            }
+            
             // Calculate total combinations
             let hasLower = false;
             let hasUpper = false;
@@ -32,7 +37,7 @@
 
             for (let i = 0; i < password.length; i++) {
                 let c = password[i];
-                if (c >= 'a' && c <= '<') {
+                if (c >= 'a' && c <= 'z') {
                     hasLower = true;
                 } else if (c >= 'A' && c <= 'Z') {
                     hasUpper = true;
@@ -41,22 +46,17 @@
                 } else {
                     hasSymbol = true;
                 }
+            
+            }
             let charset = 0;
             if (hasLower) charset += 26;
             if (hasUpper) charset += 26;
             if (hasDigit) charset += 10;
             if (hasSymbol) charset += 33;
-            }
-
             passwordInput.addEventListener("input", function() {
                 let password = passwordInput.value;
                 resultParagraph.innerText = "Charset: " + charset;
-                
-                if (password.length === 0) {
-                    resultParagraph.innerText = "Estimated time will appear here...";
-                    return;
-                }
-            });
+                });
         </script>
     </body>
 </html>
