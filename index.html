@@ -45,12 +45,12 @@
             ];
             let unitIndex = 0;
 
-            while (num >= 1e6 && unitIndex < units.length - 1) {
-                num /= 1e3; // divide by 1000 each step
+            while (num >= 1000000 && unitIndex < units.length - 1) {
+                num /= 1000; // divide by 1000 each step
                 unitIndex++;
             }
 
-            return `${num.toFixed(2)} ${units[unitIndex]}`;
+            return `${num.toFixed(1)} ${units[unitIndex]}`;
         }
 
         // Format time into readable units
